@@ -6,13 +6,18 @@ const spanError = document.querySelector('#error');
 const saveBtn1 = document.querySelector('#save-btn-1');
 const saveBtn2 = document.querySelector('#save-btn-2');
 const saveBtn3 = document.querySelector('#save-btn-3');
+const form = document.getElementById('subirFormulario');
+
 
 let gatitoId1, gatitoId2, gatitoId3;
 
 const APY_KEY = 'live_Fzw4wy7NuKwt1WcyhQWleBMxrLXQvKmb5EdTTA3Kh3b7PfusB75T1Ll2N4cWYidY';
-const API_URL_RANDOM = `https://api.thecatapi.com/v1/images/search?limit=3&api_key=${APY_KEY}`;
-const API_URL_FAVORITES = `https://api.thecatapi.com/v1/favourites?api_key=${APY_KEY}`;
-const API_URL_FAVORITES_DELETE = (id) => `https://api.thecatapi.com/v1/favourites/${id}?api_key=${APY_KEY}`;
+const API_URL_RANDOM = `https://api.thecatapi.com/v1/images/search?limit=3`;
+const API_URL_FAVORITES = `https://api.thecatapi.com/v1/favourites`;
+const API_URL_FAVORITES_DELETE = (id) => `https://api.thecatapi.com/v1/favourites/${id}`;
+const API_URL_UPLOAD = `https://api.thecatapi.com/v1/images/upload`;
+
+
 
 async function peticionRandom() {
     const res = await fetch(API_URL_RANDOM);
@@ -33,7 +38,13 @@ async function peticionRandom() {
 }
 
 async function peticionFavoritos() {
-    const res = await fetch(API_URL_FAVORITES);
+    const res = await fetch(API_URL_FAVORITES, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': APY_KEY,
+        }
+    });
     const data = await res.json();
 
     console.log('Michis favoritos');
@@ -72,6 +83,7 @@ async function saveGatitosFavoritos(id) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'x-api-key': APY_KEY,
         },
         body: JSON.stringify({
             image_id: id
@@ -89,7 +101,11 @@ async function saveGatitosFavoritos(id) {
 
 async function eliminarGatito(id) {
     const res = await fetch(API_URL_FAVORITES_DELETE(id), {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': APY_KEY,
+        },
     });
 
     if (res.status !== 200) {
@@ -98,6 +114,48 @@ async function eliminarGatito(id) {
         console.log('Se elimino el michi con id ' + id);
         peticionFavoritos();
         alert("Se elimino el Gatito");
+    }
+}
+
+async function subirFoto() {
+    const formData = new FormData(form);
+
+    const res = await fetch(API_URL_UPLOAD, {
+        method: 'POST',
+        headers: {
+            'x-api-key': APY_KEY,
+        }, 
+        body: formData,
+    });
+
+    const data = await res.json();
+
+    if (res.status !== 201) {
+        spanError.innerHTML = "Ocurrio un Error al cargar los gatitos: " + res.status;
+        console.log({data});
+    } else { 
+        console.log('Se subio el Gatito');
+        console.log(formData.get('file'));
+        console.log({data});
+        console.log(data.url);
+        saveGatitosFavoritos(data.id)
+
+    }    
+}
+
+const previewGatito = () => {
+    const archivo = document.getElementById('archivo').files;
+    const preview = document.getElementById('preview');
+
+    console.log('se activo la funcion');
+    console.log(archivo);
+
+    if (archivo.length > 0) {
+        const fileReader = new FileReader();
+        fileReader.onload = (event) => {
+            preview.setAttribute('src', event.target.result);
+        };
+        fileReader.readAsDataURL(archivo[0]);
     }
 }
 

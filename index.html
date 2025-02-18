@@ -30,11 +30,25 @@
     </section>
     <button id="new-gatito">Nuevos Gatitos</button>
 
+    <section id="subirGatito" class="subirGatito">
+        <h2>Sube la foto de tu Gatito</h2>
+
+        <form id="subirFormulario">
+            <div class="subir-imagen">
+                <input id="archivo" type="file" name="file" onchange="previewGatito()"/>
+                <img id="preview"/>
+            </div>
+            <button type="button" onclick="subirFoto()">Enviar Gatito</button>
+        </form>
+    </section>
+
     <h2>Gatitos Guardados</h2>
     
     <section class="saved-section" id="saved-section"> 
 
     </section>
+
+    
     
     <script src="./main.app.js"></script>
 </body>

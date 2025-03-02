@@ -35,10 +35,12 @@
 
         <form id="subirFormulario">
             <div class="subir-imagen">
-                <input id="archivo" type="file" name="file" onchange="previewGatito()"/>
+                <input id="archivo" type="file" name="file" /*onchange="previewGatito()"*/ disabled/>
                 <img id="preview"/>
             </div>
-            <button type="button" onclick="subirFoto()">Enviar Gatito</button>
+            <button type="button" /*onclick="subirFoto()"*/  >
+                Enviar Gatito
+            </button>
         </form>
     </section>
 
@@ -48,8 +50,6 @@
 
     </section>
 
-    
-    
     <script src="./main.app.js"></script>
 </body>
 </html>

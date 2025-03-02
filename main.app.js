@@ -64,7 +64,7 @@ async function peticionFavoritos() {
 
             boton.classList.add('save-btn');
             boton.appendChild(botonTexto);
-            boton.onclick = () => eliminarGatito(michi.id)
+            //boton.onclick = () => eliminarGatito(michi.id)
 
             img.src = michi.image.url;
 
@@ -161,9 +161,9 @@ const previewGatito = () => {
 
 
 boton.addEventListener('click', peticionRandom);
-saveBtn1.addEventListener('click', () => saveGatitosFavoritos(gatitoId1));
+/* saveBtn1.addEventListener('click', () => saveGatitosFavoritos(gatitoId1));
 saveBtn2.addEventListener('click', () => saveGatitosFavoritos(gatitoId2));
-saveBtn3.addEventListener('click', () => saveGatitosFavoritos(gatitoId3));
+saveBtn3.addEventListener('click', () => saveGatitosFavoritos(gatitoId3)); */
 
 
 peticionRandom();
